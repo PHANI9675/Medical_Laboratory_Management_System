@@ -1,0 +1,26 @@
+execute start-all.bat for starting (and setup + initializing) everything and stop-all.bat for stopping the execution of the entire system
+
+=======================================================================================================================
+
+If you installed MySQL Server + MySQL Workbench together (the typical installer bundle), mysql.exe is already there at e.g. C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe and the script finds it automatically — you don't need to do anything manually at all.
+
+If you only have Workbench connected to a remote/standalone server with no local MySQL Server install, the script will pause mid-run and print this prompt:
+
+  +----------------------------------------------------------+
+  |  MySQL CLI (mysql.exe) was NOT found automatically.      |
+  |  Please run the following SQL in MySQL Workbench NOW,    |
+  |  then press ENTER to continue the tests.                 |
+  +----------------------------------------------------------+
+
+  -- Step 6B: Role assignment
+  UPDATE auth_db.users SET role = 'ADMIN'    WHERE username = 'admin@lab.com';
+  UPDATE auth_db.users SET role = 'LAB_TECH' WHERE username = 'labtech@lab.com';
+
+  -- Step 6D: Inventory item
+  INSERT INTO inventory_db.inventory_items (item_name,quantity,unit,description,low_stock_threshold)
+  SELECT 'CBC Reagent Kit',20,'units','Reagent kit for CBC test',10
+  WHERE NOT EXISTS (SELECT 1 FROM inventory_db.inventory_items WHERE item_name='CBC Reagent Kit');
+
+  Press ENTER after running the SQL above in MySQL Workbench
+
+You paste those two blocks into Workbench → Execute → come back → press Enter. Everything else (registration, login, all API calls, token capture) is 100% automated.

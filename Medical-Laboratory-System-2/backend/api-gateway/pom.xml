@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- FIX: parent now points to medlab-backend, not spring-boot-starter-parent.
+         This means the Spring Cloud BOM (and all other managed versions) are
+         inherited automatically — no duplicate dependencyManagement needed here. -->
+    <parent>
+        <groupId>com.medlab</groupId>
+        <artifactId>medlab-backend</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>api-gateway</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>api-gateway</name>
+    <description>MedLab API Gateway — single entry point, JWT validation, routing, aggregated Swagger</description>
+
+    <!-- groupId and java.version are inherited from parent, no need to repeat them.
+         Only override properties that are specific to this module. -->
+
+    <dependencies>
+
+        <!-- Spring Cloud Gateway (WebFlux-based reactive gateway)
+             NOTE: spring-cloud-starter-gateway was REMOVED in Spring Cloud 2025.1.0.
+             The replacement artifact for reactive/WebFlux-based gateways is below. -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway-server-webflux</artifactId>
+            <!-- version supplied by Spring Cloud BOM in parent -->
+        </dependency>
+
+        <!-- Eureka Client — gateway registers itself and discovers services -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+
+        <!-- Config Client — pulls config from Config Server -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+
+        <!-- Load Balancer — required for lb:// routing with Eureka -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+
+        <!-- JWT — version supplied by parent dependencyManagement -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Actuator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- SpringDoc — version supplied by parent dependencyManagement -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <!-- dependencyManagement block removed — parent already imports the
+         Spring Cloud BOM, so repeating it here is redundant and error-prone. -->
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

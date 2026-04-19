@@ -1,0 +1,60 @@
+HOW TO RUN/TEST ---
+
+1. First run this once in MySQL Workbench or terminal
+
+CREATE DATABASE IF NOT EXISTS billing
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
+
+2. then go to project root (where pom.xml is)
+   then type "cmd" from that location
+   then copy/paste this in cmd terminal ---
+
+   mvn clean spring-boot:run
+
+
+3. then go to either of these sites from browser ---
+
+http://localhost:8085/dev/token/LAB_TECH
+http://localhost:8085/dev/token/PATIENT
+http://localhost:8085/dev/token/ADMIN
+http://localhost:8085/dev/token/PHYSICIAN
+
+and copy the token value
+
+4. then go to http://localhost:8085/swagger-ui.html, click Authorize, paste Bearer <token>, and test the api endpoints.
+
+5. check MySQL Workbench after testing each endpoint ---
+
+   SELECT * FROM billing.invoices;
+   SELECT * FROM billing.payments;
+
+6. (optional) if you want to test, then follow same instructions as step 2 (in a different terminal window) but type ---
+
+   mvn test
+
+
+   It will show something like --- Tests run: 38, Failures: 0, Errors: 0, Skipped: 0
+
+========================================
+
+optionally (temporary/will be deleted) you can test from here too directly [cleaner ui], after step 2 (mvn clean spring-boot:run) ---
+
+http://localhost:8085/test-ui.html
+
+=============================================
+
+
+[[ Note:-
+
+(i)  amount will show 0.00 when testing standalone (Inventory Service P4 not running). This is correct — fallback returns 0 price per test. Actual prices will be fetched once P4 (inventory-service) is integrated.
+
+(ii) Notifications are fire-and-forget — billing never crashes if User Service (P1) is down.
+
+(iii) Confirm JWT secret matches P1 (User Service) exactly.
+
+In application.yml:
+jwt:
+secret: thisisverysecuresecretkeyforjwttokengenerationandvalidationteam5medlab
+
+This must be byte-for-byte identical to whatever P1 has in their JwtUtil.java. Check with P1 (user-auth-service) before final integration.  ]]

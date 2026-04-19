@@ -1,0 +1,113 @@
+================================================================================
+  MEDLAB MICROSERVICES - QUICK START GUIDE
+================================================================================
+
+PROJECT FOLDER:
+  C:\Users\2486107\Downloads\Medical-Laboratory-System-draft\Medical-Laboratory-System-2
+
+================================================================================
+STEP 1: OPEN COMMAND PROMPT
+================================================================================
+
+  Windows Key → Type: cmd → Press Enter
+
+
+================================================================================
+STEP 2: NAVIGATE TO PROJECT FOLDER
+================================================================================
+
+  Copy and paste this into Command Prompt:
+
+  cd C:\Users\2486107\Downloads\Medical-Laboratory-System-draft\Medical-Laboratory-System-2
+
+  Press Enter
+
+
+================================================================================
+STEP 3: VERIFY YOU'RE IN THE RIGHT FOLDER
+================================================================================
+
+  Type: dir
+  Press Enter
+
+  You should see these files:
+    - start-all.bat ✓
+    - start-all.ps1 ✓
+    - stop-all.bat ✓
+    - backend/ (folder) ✓
+
+
+================================================================================
+STEP 4: START ALL SERVICES
+================================================================================
+
+  Type this in Command Prompt:
+
+    start-all.bat
+
+  Press Enter
+
+  WHAT HAPPENS:
+    1. A blue PowerShell window opens
+    2. It checks Maven, Java, MySQL
+    3. Creates databases automatically
+    4. Launches 10 services in separate green windows
+    5. Takes 5-10 minutes for first run
+    6. Shows "STARTUP COMPLETE" when done
+
+
+================================================================================
+STEP 5: VERIFY ALL SERVICES STARTED
+================================================================================
+
+  Open your browser and go to:
+
+    http://localhost:8761
+
+  You should see Eureka Dashboard with all services marked as UP (green)
+
+
+================================================================================
+STEP 6: TEST THE SYSTEM
+================================================================================
+
+  In Command Prompt, type:
+
+    test-all.bat
+
+  This runs automated tests on all services
+
+
+================================================================================
+STEP 7: STOP ALL SERVICES (WHEN DONE)
+================================================================================
+
+  In Command Prompt, type:
+
+    stop-all.bat
+
+  Or close all the green service windows manually
+
+
+================================================================================
+IMPORTANT NOTES
+================================================================================
+
+  ✓ MySQL MUST be running before you start (Windows Services → MySQL80)
+  ✓ If MySQL password is not "root", edit start-all.bat and change:
+      set MEDLAB_DB_PASSWORD=root
+    to your actual password
+  ✓ Keep all windows open while services are running
+  ✓ First run takes 5-10 minutes (downloads Maven dependencies)
+  ✓ Subsequent runs take 1-2 minutes
+
+
+================================================================================
+USEFUL LINKS
+================================================================================
+
+  Eureka Dashboard:        http://localhost:8761
+  API Gateway Swagger:     http://localhost:8090/swagger-ui.html
+  Guide (detailed):        guide.md (in this folder)
+
+

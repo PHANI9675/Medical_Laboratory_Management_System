@@ -1,0 +1,20 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: api-gateway
+
+# Override the global application.yml management settings specifically for the gateway.
+# Config-server app-specific files (api-gateway.yml) have higher priority than the
+# global application.yml, so these values win over the shared "health,info,metrics" list.
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway,metrics
+  endpoint:
+    health:
+      show-details: always
+    gateway:
+      enabled: true

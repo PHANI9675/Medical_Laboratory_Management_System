@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/Medical-Laboratory-System-2/backend/Notification_service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Medical-Laboratory-System-2/backend/api-gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Medical-Laboratory-System-2/backend/api-gateway/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Medical-Laboratory-System-2/backend/auth-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Medical-Laboratory-System-2/backend/billing-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Medical-Laboratory-System-2/backend/config-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Medical-Laboratory-System-2/backend/inventory-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Medical-Laboratory-System-2/backend/lab-processing-service/lps/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Medical-Laboratory-System-2/backend/lps/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Medical-Laboratory-System-2/backend/order-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Medical-Laboratory-System-2/backend/patient_service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Medical-Laboratory-System-2/backend/server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Medical-Laboratory-System-2/backend/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Medical-Laboratory-System-2/backend/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

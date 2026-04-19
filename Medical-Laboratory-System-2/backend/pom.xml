@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- ═══════════════════════════════════════════════════════
+         Parent artifact — not a runnable Spring Boot app.
+         packaging = pom means this is purely a build descriptor.
+    ═══════════════════════════════════════════════════════ -->
+    <groupId>com.medlab</groupId>
+    <artifactId>medlab-backend</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <name>MedLab Backend — Parent POM</name>
+    <description>
+        Multi-module parent for all MedLab microservices.
+        Run `mvn clean install` from this directory to build all services at once.
+    </description>
+
+    <!-- ═══════════════════════════════════════════════════════
+         Modules — one entry per service folder.
+         Maven builds them in the order listed.
+         Infrastructure first, then core services, then gateway.
+
+         NOTE: discovery-server, lps, and inventory-service have been
+         commented out because their module directories do not yet exist.
+         Uncomment each entry once the corresponding folder + pom.xml
+         is created beneath this parent directory.
+    ═══════════════════════════════════════════════════════ -->
+    <modules>
+        <!-- Infrastructure -->
+        <!-- <module>discovery-server</module> -->   <!-- TODO: create module directory -->
+        <module>config-server</module>
+        <module>api-gateway</module>
+
+        <!-- Core services -->
+        <module>auth-service</module>
+        <module>order-service</module>
+        <!-- <module>lps</module> -->                <!-- TODO: create module directory -->
+        <!-- <module>inventory-service</module> -->  <!-- TODO: create module directory -->
+        <module>billing-service</module>
+
+        <!-- Add-on services -->
+        <module>patient_service</module>
+        <module>Notification_service</module>
+    </modules>
+
+    <!-- ═══════════════════════════════════════════════════════
+         Shared properties — all child modules inherit these.
+         A child can override any value in its own pom.xml.
+    ═══════════════════════════════════════════════════════ -->
+    <properties>
+        <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring-boot.version>4.0.5</spring-boot.version>
+        <spring-cloud.version>2025.1.1</spring-cloud.version>
+        <jjwt.version>0.11.5</jjwt.version>
+        <springdoc.version>3.0.0</springdoc.version>
+        <lombok.version>1.18.36</lombok.version>
+    </properties>
+
+    <!-- ═══════════════════════════════════════════════════════
+         dependencyManagement — declares versions centrally.
+         Child modules simply declare the dependency WITHOUT
+         a version tag and this parent supplies it automatically.
+    ═══════════════════════════════════════════════════════ -->
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- Spring Boot BOM — manages all spring-boot-starter-* versions -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Spring Cloud BOM — manages Eureka, Gateway, Config, Feign versions -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- JWT -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-api</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${jjwt.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
+                <version>${jjwt.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <!-- SpringDoc OpenAPI (Swagger) -->
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+
+            <!-- Lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <!-- MySQL -->
+            <dependency>
+                <groupId>com.mysql</groupId>
+                <artifactId>mysql-connector-j</artifactId>
+                <version>9.1.0</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- ═══════════════════════════════════════════════════════
+         build — shared plugin config inherited by all modules.
+    ═══════════════════════════════════════════════════════ -->
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.13.0</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>

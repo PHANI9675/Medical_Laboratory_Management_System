@@ -1,0 +1,68 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: inventory-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/inventory_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  # Config Server — optional so startup does NOT fail if Config Server is not yet running
+  config:
+    import: "optional:configserver:http://localhost:8888"
+
+# FIX: was app.jwt.secret → jwt.secret (JwtUtil @Value updated to match)
+jwt:
+  secret: thisisverysecuresecretkeyforjwttokengenerationandvalidationteam5medlab
+
+# Eureka client config
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+
+# FIX: was wrongly nested under app: — must be top-level springdoc: for SpringDoc to pick it up
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+  packages-to-scan: com.medlab.inventory
+  paths-to-match: /**
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# Low-stock notification target — the admin who receives alerts when stock falls below threshold.
+# Change this to match the actual ADMIN username registered in auth-service.
+inventory:
+  notification:
+    admin-username: admin@lab.com
+
+logging:
+  level:
+    com.medlab.inventory: DEBUG
+    org.springframework.security: INFO
